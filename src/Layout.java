@@ -136,6 +136,7 @@ public class Layout implements ActionListener {
                 ta.append(text.trim()+"\n"); //stack overflow
 
 
+
             } else {
                 ta.selectAll();
                 ta.replaceSelection("");
