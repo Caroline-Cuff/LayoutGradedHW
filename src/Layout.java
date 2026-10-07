@@ -16,6 +16,7 @@ public class Layout implements ActionListener {
     private String everyoneShutUp = "";
     private boolean isRunning;
     private JLabel inputLable;
+    private JScrollPane sp; // Stack overflow
 
 
 
@@ -40,11 +41,12 @@ public class Layout implements ActionListener {
 
 
         ta = new JTextArea(); // area that you can type in
+        sp = new JScrollPane(ta);
         ta.setBounds(50, 10, WIDTH-100, HEIGHT-50);
         input = new JTextArea();
         input.setBounds(50,100,WIDTH-100,HEIGHT-50);
         ta.setEditable(false);
-        input.append("                                     ");
+        input.append("                  ");
 
         statusLabel = new JLabel("", JLabel.CENTER);
         statusLabel.setSize(350, 100);
@@ -62,9 +64,12 @@ public class Layout implements ActionListener {
         // BorderLayout - 5 zones (N,S,E,W,Center)
 
         //put things in order - order matters
+
+
         mainFrame.add(statusLabel);
         mainFrame.add(controlPanel);
-        mainFrame.add(ta);//add typing area
+        mainFrame.add(sp);
+       // mainFrame.add(ta);//add typing area
 
 
         mainFrame.setVisible(true);
@@ -80,19 +85,25 @@ public class Layout implements ActionListener {
 
         JButton submitButton = new JButton("Submit");
         JButton ResetButton = new JButton("Reset");
+        JButton allCapsButton = new JButton("All Caps");
 
         submitButton.setActionCommand(text);
         ResetButton.setActionCommand("");
 
         submitButton.addActionListener(new ButtonClickListener());
         ResetButton.addActionListener(new ButtonClickListener());
+        allCapsButton.addActionListener(new ButtonClickListener());
 
 
         controlPanel.add(inputLable);
         controlPanel.add(input);
 
+
+
+
         controlPanel.add(submitButton);
         controlPanel.add(ResetButton);
+        controlPanel.add(allCapsButton);
 
         mainFrame.setVisible(true); // every time a change happens
     }
@@ -114,12 +125,17 @@ public class Layout implements ActionListener {
             String command = e.getActionCommand();
 
 
-            if (command.equals("OK")) {
+
+            if (command.equals("All Caps")) {
                 statusLabel.setText("Ok Button clicked.");
+                ta.append(text.toUpperCase()+"\n");
 
             } else if (command.equals("Submit")) {
+
                 text = input.getText();
-                ta.append(text);
+                ta.append(text.trim()+"\n"); //stack overflow
+
+
             } else {
                 ta.selectAll();
                 ta.replaceSelection("");
